@@ -17,7 +17,7 @@ AI coding agent to navigate safely.
 Device input                 Engine clock / view
      |                              |
      v                              v
-Input adapter -> Game actions -> Application/session
+Input adapter -> UI/game actions -> Arcade shell / game session
                                       |
                                       v
                              Pure gameplay rules
@@ -51,6 +51,21 @@ Coordinates a play session, translates elapsed time into rule steps, handles
 pause and restart, and emits a view-friendly snapshot or events. It should not
 know which physical device produced an action.
 
+### Arcade shell
+
+Owns application startup, the Home Menu, game registration, selection, and the
+transition into and out of a game. The shell knows how to launch a registered
+game, but it does not contain Dad's Blocks rules.
+
+The first registry contains only Dad's Blocks. A small interface or data record
+for title, identifier, menu art/placeholder, availability, and launch target is
+enough; a plugin system, downloadable catalog, or generalized content framework
+would be premature.
+
+Each game owns its session state. Returning Home must dispose or suspend that
+session according to an explicit policy, and launching a new session must not
+leak state from a previous run.
+
 ### Input
 
 Maps platform input to a small vocabulary such as:
@@ -66,6 +81,7 @@ Pause
 Restart
 Confirm
 Back
+OpenMenu
 ```
 
 Keyboard, an Xbox controller connected to the Mac, and an Xbox controller on the
@@ -97,6 +113,7 @@ docs/
   product.md
   xbox-development.md
 game/
+  shell/
   core/
   application/
   input/
@@ -135,6 +152,10 @@ engine-level play tests should confirm that scenes, rendering, and input are
 wired correctly. Most rule failures should be diagnosable without opening the
 editor.
 
+Shell tests should verify that the application starts at Home, only available
+games can launch, Dad's Blocks can return Home, focus remains valid after a
+transition, and a new game session starts with clean state.
+
 ## Early rules decisions still required
 
 - board dimensions;
@@ -147,4 +168,3 @@ editor.
 
 These should be recorded as explicit decisions rather than inherited silently
 from any commercial falling-block game.
-

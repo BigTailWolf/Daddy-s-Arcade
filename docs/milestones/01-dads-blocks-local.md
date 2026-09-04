@@ -2,8 +2,9 @@
 
 ## Outcome
 
-A complete minimal game can be launched and played on macOS with either the
-keyboard or an Xbox controller. Its core rules run under automated tests.
+A complete minimal game can be launched from the Daddy's Arcade Home Menu and
+played on macOS with either the keyboard or an Xbox controller. Its core rules
+run under automated tests.
 
 Xbox packaging and deployment are not part of this milestone.
 
@@ -11,6 +12,10 @@ Xbox packaging and deployment are not part of this milestone.
 
 ### Gameplay
 
+- The application starts at the Daddy's Arcade Home Menu.
+- Selecting the Dad's Blocks tile starts a fresh game session.
+- The player can return from Dad's Blocks to the Home Menu without relaunching
+  the application.
 - A visible board starts a new game with an active falling piece.
 - Pieces descend automatically according to gravity.
 - The player can move left and right and rotate.
@@ -24,8 +29,9 @@ Xbox packaging and deployment are not part of this milestone.
 
 ### Input
 
-- A documented keyboard layout controls all milestone actions.
-- An Xbox controller connected to the Mac controls the same actions.
+- A documented keyboard layout controls the Home Menu and all game actions.
+- An Xbox controller connected to the Mac controls the Home Menu and the same
+  game actions.
 - Gameplay consumes abstract actions, not raw keys or button numbers.
 - Disconnecting or reconnecting a controller does not corrupt game state.
 
@@ -48,14 +54,15 @@ Xbox packaging and deployment are not part of this milestone.
 
 ## Suggested implementation slices
 
-1. Engine project and automated-test harness.
-2. Pure board and piece model with collision tests.
-3. Movement, rotation, gravity, and locking with tests.
-4. Line clear, score, game over, and restart with tests.
-5. Minimal scene and geometric rendering.
-6. Keyboard action mapping.
-7. Xbox controller mapping and on-Mac verification.
-8. Pause, UI states, and milestone acceptance pass.
+1. Engine project, application shell, and automated-test harness.
+2. Home Menu with one registered Dad's Blocks entry and scene transitions.
+3. Pure board and piece model with collision tests.
+4. Movement, rotation, gravity, and locking with tests.
+5. Line clear, score, game over, and restart with tests.
+6. Minimal game scene and geometric rendering.
+7. Keyboard action mapping across menu and game.
+8. Xbox controller mapping and on-Mac verification across menu and game.
+9. Pause, return-Home behavior, UI states, and milestone acceptance pass.
 
 ## Exit evidence
 
@@ -64,4 +71,3 @@ Xbox packaging and deployment are not part of this milestone.
 - a completed manual keyboard checklist;
 - a completed manual Xbox-controller-on-Mac checklist;
 - known issues recorded in the repository.
-

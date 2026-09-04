@@ -9,6 +9,11 @@ the general idea of arranging falling geometric pieces, but it will not use the
 Tetris name, branding, artwork, music, level designs, or distinctive visual
 presentation.
 
+The application opens on the **Daddy's Arcade Home Menu**, not directly inside
+Dad's Blocks. The first release has one playable game tile, while the shell is
+structured to welcome additional original games later without being overbuilt
+today.
+
 ## Project status
 
 The project is in its documentation and technical-validation phase. No game
@@ -34,7 +39,10 @@ See [docs/product.md](docs/product.md),
 
 ## First playable milestone
 
-Dad's Blocks should run locally on macOS using placeholder geometry and support:
+Daddy's Arcade should open locally on macOS to a controller-friendly Home Menu.
+Selecting Dad's Blocks starts the game, and leaving the game returns to the Home
+Menu without restarting the application. Dad's Blocks uses placeholder geometry
+and supports:
 
 - a playfield and falling piece set;
 - spawning and gravity;
@@ -45,8 +53,9 @@ Dad's Blocks should run locally on macOS using placeholder geometry and support:
 - keyboard and Xbox controller input;
 - automated tests for the platform-independent rules.
 
-Kid Mode, Dad Mode, polished art and audio, a launcher, multiplayer, and the
-other arcade games are intentionally later milestones.
+Kid Mode, Dad Mode, polished art and audio, multiplayer, and the other arcade
+games are intentionally later milestones. The launcher/Home Menu itself is part
+of the first milestone.
 
 ## Repository principles
 
@@ -62,7 +71,7 @@ other arcade games are intentionally later milestones.
 
 - [Product brief](docs/product.md)
 - [Architecture](docs/architecture.md)
+- [Arcade shell and Home Menu](docs/milestones/00-arcade-shell.md)
 - [First milestone](docs/milestones/01-dads-blocks-local.md)
 - [Xbox development notes](docs/xbox-development.md)
 - [Engine decision record](docs/decisions/0001-game-engine.md)
-

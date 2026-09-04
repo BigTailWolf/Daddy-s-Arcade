@@ -37,10 +37,30 @@ The minimum playable loop is:
 The first milestone also includes pause, keyboard input, Xbox controller input,
 and automated tests for the core rules.
 
+## Daddy's Arcade Home Menu
+
+The first playable application must establish Daddy's Arcade as a collection,
+even though only Dad's Blocks is implemented initially.
+
+On launch, the player sees a controller-first Home Menu containing:
+
+- Daddy's Arcade identity and a clear game-selection area;
+- one enabled Dad's Blocks tile or card;
+- room in the visual system for future game tiles without showing misleading
+  playable content;
+- clear focus, selection, and launch feedback;
+- a Settings entry only if it provides real first-release settings;
+- a safe way to quit on desktop where appropriate.
+
+Launching Dad's Blocks happens inside the same application. The player can
+return to the Home Menu without relaunching it. The menu should preserve a clean
+boundary between the arcade shell and each game's own state and presentation.
+
 ## Experience principles
 
 - **Readable from the sofa:** large shapes, high contrast, and safe TV margins.
-- **Controller first:** every game can be operated without a pointer or keyboard.
+- **Controller first:** the Home Menu and every game can be operated without a
+  pointer or keyboard.
 - **Kind by default:** mistakes should be understandable, feedback immediate,
   and restarts painless.
 - **Depth without clutter:** advanced information belongs in Dad Mode rather
@@ -75,8 +95,9 @@ engine and controller experience are stable.
 
 ## Out of scope for the first milestone
 
-- the multi-game launcher;
 - additional games;
+- elaborate launcher features such as profiles, downloads, online catalogs, or
+  animated cabinet environments;
 - online services, accounts, achievements, or leaderboards;
 - final art, music, branding, and monetization;
 - Xbox Store submission;
@@ -93,4 +114,3 @@ itself as an official or compatible Tetris product.
 
 Before any public or commercial release, names, store presentation, audiovisual
 assets, and the complete player experience should receive a dedicated IP review.
-
