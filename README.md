@@ -1,5 +1,11 @@
 # Daddy's Arcade
 
+![Daddy's Arcade Home Menu concept showing Dad's Blocks as the first playable game](docs/assets/home-menu-concept.png)
+
+> **Home Menu concept** — visual direction for the first playable milestone,
+> not final production artwork. The application opens here, with Dad's Blocks
+> as the first and only playable game.
+
 Daddy's Arcade is a family game project: a small collection of original,
 kid-friendly games inspired by the clear rules and immediate fun of classic
 arcade games.
