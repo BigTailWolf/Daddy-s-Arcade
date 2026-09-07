@@ -8,6 +8,17 @@ public static class CoreChecks
     [MenuItem("Daddy's Arcade/Run Core Checks")]
     public static void Run()
     {
+        int[] rewards = {0,100,300,600,1000};
+        for (int lines=0; lines<=4; lines++) Require(BlocksRules.LineReward(lines) == rewards[lines], "Line reward " + lines);
+        var kid = new BlocksRules(42, PlayMode.Kid);
+        var dad = new BlocksRules(42, PlayMode.Daddy);
+        for(int i=0;i<4;i++) { kid.Tick(.2); dad.Tick(.2); }
+        Require(kid.Y == 0 && dad.Y == 1, "Mode gravity difference");
+        while(kid.Move(0,1)) { }
+        kid.StepDown();
+        Require(kid.Board[4,19] == 0, "Kid drop does not bypass grace");
+        for(int i=0;i<4;i++) kid.Tick(.2);
+        Require(kid.Y == 0, "Kid locks after grace and spawns");
         var game = new BlocksRules(42);
         while (game.Move(-1,0)) { }
         int x = game.X;

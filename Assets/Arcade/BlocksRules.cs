@@ -2,6 +2,7 @@ using System;
 
 namespace DaddysArcade
 {
+    public enum PlayMode { Kid, Daddy }
     // No engine references: time, actions and randomness enter from the host.
     public sealed class BlocksRules
     {
@@ -21,8 +22,11 @@ namespace DaddysArcade
         public int Score { get; private set; }
         public bool Over { get; private set; }
         public bool Paused { get; set; }
-        double gravity;
-        public BlocksRules(int seed) { random = new Random(seed); Spawn(); }
+        double gravity, grounded;
+        public PlayMode Mode { get; }
+        public double GravityInterval => Mode == PlayMode.Kid ? 1.4 : .7;
+        public static int LineReward(int lines) => lines * (lines + 1) * 50;
+        public BlocksRules(int seed, PlayMode mode = PlayMode.Daddy) { Mode = mode; random = new Random(seed); Spawn(); }
         public void Cell(int index, int rotation, out int x, out int y)
         {
             x = Shapes[Kind][index * 2]; y = Shapes[Kind][index * 2 + 1];
@@ -51,17 +55,27 @@ namespace DaddysArcade
         public void Tick(double seconds)
         {
             if (Over || Paused) return;
-            gravity += Math.Max(0, Math.Min(seconds, .25));
-            if (gravity < .7) return;
-            gravity -= .7; StepDown();
+            double delta = Math.Max(0, Math.Min(seconds, .25));
+            if (Mode == PlayMode.Kid) {
+                grounded = Fits(X, Y + 1, Rotation) ? 0 : grounded + delta;
+                if (grounded >= .8) { Lock(); return; }
+            }
+            gravity += delta;
+            if (gravity < GravityInterval) return;
+            gravity -= GravityInterval; StepDown();
         }
         public void StepDown()
         {
             if (Over || Paused || Move(0, 1)) return;
+            if (Mode == PlayMode.Kid) return;
+            Lock();
+        }
+        void Lock()
+        {
             for (int i = 0; i < 4; i++) {
                 Cell(i, Rotation, out int x, out int y); Board[X+x,Y+y] = Kind + 1;
             }
-            Score += ClearLines() * 100;
+            Score += LineReward(ClearLines());
             Spawn();
         }
         public int ClearLines()
@@ -80,7 +94,7 @@ namespace DaddysArcade
         }
         void Spawn()
         {
-            Kind = random.Next(Shapes.Length); Rotation = 0; X = 3; Y = 0; gravity = 0;
+            Kind = random.Next(Shapes.Length); Rotation = 0; X = 3; Y = 0; gravity = 0; grounded = 0;
             Over = !Fits(X,Y,Rotation);
         }
     }

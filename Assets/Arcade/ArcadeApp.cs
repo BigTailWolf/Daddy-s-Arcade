@@ -7,6 +7,8 @@ namespace DaddysArcade
         enum Action { Confirm, Back, Left, Right, Down, Rotate, Pause, Restart }
         BlocksRules game;
         bool leaving;
+        bool choosingMode;
+        PlayMode selectedMode = PlayMode.Kid;
         static readonly Color[] Colors = { new Color(.12f,.14f,.24f), Color.cyan,
             Color.yellow, new Color(.7f,.4f,1), Color.green, Color.red, Color.blue,
             new Color(1,.55f,.2f) };
@@ -26,7 +28,14 @@ namespace DaddysArcade
         }
         void Dispatch(Action action)
         {
-            if (game == null) { if (action == Action.Confirm) StartGame(); return; }
+            if (game == null) {
+                if (!choosingMode) { if (action == Action.Confirm) choosingMode = true; return; }
+                if (action == Action.Back) choosingMode = false;
+                if (action == Action.Left) selectedMode = PlayMode.Kid;
+                if (action == Action.Right) selectedMode = PlayMode.Daddy;
+                if (action == Action.Confirm) StartGame();
+                return;
+            }
             if (action == Action.Back) { leaving = !leaving; game.Paused = leaving; return; }
             if (leaving) { if (action == Action.Confirm) { game = null; leaving = false; } return; }
             switch (action) {
@@ -39,7 +48,7 @@ namespace DaddysArcade
                 case Action.Restart: StartGame(); break;
             }
         }
-        void StartGame() { game = new BlocksRules(System.Environment.TickCount); leaving = false; }
+        void StartGame() { game = new BlocksRules(System.Environment.TickCount, selectedMode); leaving = false; choosingMode = false; }
         void Box(Rect rect, Color color) { GUI.color = color; GUI.DrawTexture(rect, Texture2D.whiteTexture); GUI.color = Color.white; }
         void Label(Rect rect, string text, int size, Color color)
         {
@@ -51,12 +60,25 @@ namespace DaddysArcade
             Box(new Rect(0,0,1280,720), new Color(.035f,.04f,.12f));
             Label(new Rect(70,35,1100,75), "DADDY'S ARCADE", 48, new Color(1,.76f,.25f));
             if (game == null) {
+                if (choosingMode) {
+                    Label(new Rect(75,140,1000,60), "DAD'S BLOCKS — Choose your mode", 32, Color.white);
+                    for (int i = 0; i < 2; i++) {
+                        var mode = i == 0 ? PlayMode.Kid : PlayMode.Daddy;
+                        float left = 75 + i * 570;
+                        Box(new Rect(left,240,530,280), selectedMode == mode ? new Color(.65f,.4f,.15f) : new Color(.15f,.12f,.3f));
+                        Label(new Rect(left+25,265,480,60), i == 0 ? "KID MODE" : "DADDY MODE", 36, Color.white);
+                        Label(new Rect(left+25,345,480,90), i == 0 ? "Slow falling\n800 ms to adjust before locking" : "Faster falling\nLocks on blocked descent", 23, Color.white);
+                        if (GUI.Button(new Rect(left+25,455,260,40), "PLAY " + (i == 0 ? "KID MODE" : "DADDY MODE"))) { selectedMode = mode; StartGame(); }
+                    }
+                    Label(new Rect(75,590,1100,45), "← → Choose   •   Enter / A: Play   •   Esc / B: Back", 23, Color.white);
+                    return;
+                }
                 Label(new Rect(75,125,1000,45), "Pick a game. Make a memory.", 25, Color.white);
                 Box(new Rect(70,215,620,335), new Color(.8f,.5f,.2f));
                 Box(new Rect(75,220,610,325), new Color(.15f,.12f,.3f));
                 Label(new Rect(105,250,560,70), "DAD'S BLOCKS", 44, Color.white);
                 for (int i=0;i<10;i++) Box(new Rect(110+i*50,425-(i%3)*35,44,44), Colors[i%7+1]);
-                if (GUI.Button(new Rect(105,490,220,40), "PLAY  /  ENTER")) StartGame();
+                if (GUI.Button(new Rect(105,490,220,40), "PLAY  /  ENTER")) choosingMode = true;
                 Label(new Rect(75,625,1100,40), "Enter / A: Play      •      Keyboard ready", 22, Color.white);
                 return;
             }
@@ -69,6 +91,8 @@ namespace DaddysArcade
             }
             Label(new Rect(760,170,400,60), "DAD'S BLOCKS", 30, Color.white);
             Label(new Rect(760,250,400,50), "Score  " + game.Score, 28, Color.yellow);
+            Label(new Rect(760,210,400,40), game.Mode == PlayMode.Kid ? "KID MODE" : "DADDY MODE", 22, Color.white);
+            Label(new Rect(760,555,480,80), "Line rewards\n100 / 300 / 600 / 1000", 22, Color.yellow);
             Label(new Rect(760,325,460,200), "← →  Move\n↑ / Space  Rotate\n↓  Drop one step\nP  Pause   •   R  Restart\nEsc  Return Home", 21, Color.white);
             if (leaving || game.Over || game.Paused) {
                 Box(new Rect(370,300,390,145), new Color(.2f,.12f,.35f));
