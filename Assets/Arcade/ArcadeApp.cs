@@ -8,6 +8,8 @@ namespace DaddysArcade
         BlocksRules game;
         bool leaving;
         bool choosingMode;
+        Texture2D homeArt;
+        void Awake() { homeArt = Resources.Load<Texture2D>("ArcadeHome"); }
         PlayMode selectedMode = PlayMode.Kid;
         static readonly Color[] Colors = { new Color(.12f,.14f,.24f), Color.cyan,
             Color.yellow, new Color(.7f,.4f,1), Color.green, Color.red, Color.blue,
@@ -56,7 +58,21 @@ namespace DaddysArcade
         }
         void OnGUI()
         {
-            GUI.matrix = Matrix4x4.Scale(new Vector3(Screen.width / 1280f, Screen.height / 720f, 1));
+            GUI.matrix = Matrix4x4.identity;
+            Box(new Rect(0,0,Screen.width,Screen.height), new Color(.02f,.02f,.06f));
+            float scale = Mathf.Min(Screen.width / 1280f, Screen.height / 720f);
+            GUI.matrix = Matrix4x4.TRS(new Vector3((Screen.width - 1280*scale)/2, (Screen.height - 720*scale)/2,0), Quaternion.identity, new Vector3(scale,scale,1));
+            if (game == null && !choosingMode && homeArt != null) {
+                GUI.DrawTexture(new Rect(0,0,1280,720), homeArt, ScaleMode.StretchToFill);
+                // Hit regions are aligned to the artwork's selected game card and A prompt.
+                var card = new Rect(154,279,555,335);
+                if (card.Contains(Event.current.mousePosition)) {
+                    Box(card, new Color(1, .85f, .55f, .07f));
+                }
+                if (GUI.Button(card, GUIContent.none, GUIStyle.none) ||
+                    GUI.Button(new Rect(460,642,160,50), GUIContent.none, GUIStyle.none)) choosingMode = true;
+                return;
+            }
             Box(new Rect(0,0,1280,720), new Color(.035f,.04f,.12f));
             Label(new Rect(70,35,1100,75), "DADDY'S ARCADE", 48, new Color(1,.76f,.25f));
             if (game == null) {

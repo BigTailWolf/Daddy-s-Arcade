@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using DaddysArcade;
+using PlayMode = DaddysArcade.PlayMode;
 
 public static class CoreChecks
 {
