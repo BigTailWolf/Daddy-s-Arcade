@@ -20,3 +20,5 @@ tmp/
 MemoryCaptures/
 Recordings/
 
+# Accidental local template project; not part of the arcade application.
+/Daddy's Arcade/
