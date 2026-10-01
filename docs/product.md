@@ -68,9 +68,10 @@ boundary between the arcade shell and each game's own state and presentation.
 - **Fast iteration:** a gameplay change should normally be testable on the Mac
   within seconds.
 
-## Later modes
+## Modes
 
-These are product directions, not first-milestone commitments.
+Kid, Parent, Parent + Child, PK, and Whole Family are implemented in the local prototype.
+The advanced features below remain future directions where noted.
 
 ### Kid Mode
 
@@ -84,14 +85,30 @@ These are product directions, not first-milestone commitments.
 
 - more traditional speed progression;
 - score and level systems;
-- next-piece preview;
+- next-piece preview (implemented for every mode);
 - ghost piece;
 - hold.
 
 ### Parent-child play
 
-Possible cooperative modes will be explored only after the single-player rule
-engine and controller experience are stable.
+Local cooperative play uses independent Parent and Child boards. Parent clears
+of 3 or 4 lines remove the Child board's bottom 1 or 2 rows only when its settled
+stack is strictly taller than 8 rows. Controller 1 controls Parent; controller 2
+controls Child. Either game over ends the round. See local-development.md for
+precise input, assistance, and validation details.
+
+### PK and Whole Family
+
+PK sends 1 / 2 garbage rows to the opponent for 3 / 4-line clears, without
+cancelling incoming rows. Whole Family has two competing Parents who also both
+help one Kid; Kid is protected from attacks. See local-development.md for role
+assignments, timing, and round-ending rules.
+
+### Shared pause menu
+
+Menu pauses the game for every player. Every game uses the
+standard Resume, Main Menu (the current game's menu), and Exit to Arcade routes.
+Games may append their own options; Dad's Blocks includes Restart Round.
 
 ## Out of scope for the first milestone
 
@@ -102,7 +119,6 @@ engine and controller experience are stable.
 - final art, music, branding, and monetization;
 - Xbox Store submission;
 - production-grade Xbox build and deployment automation;
-- parent-child cooperative play.
 
 ## Intellectual-property boundary
 

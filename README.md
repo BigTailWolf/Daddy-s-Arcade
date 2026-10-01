@@ -22,12 +22,10 @@ today.
 
 ## Project status
 
-The project is in its documentation and technical-validation phase. No game
-engine has been committed to the repository yet.
-
-The current recommendation is **Unity 6 LTS with C#**, subject to an explicit
-engine decision. The deciding factor is the long-term Xbox path, not the small
-amount of code needed for the first 2D game.
+The repository contains a playable **Unity 6000.6.0f1 / C#** prototype with Kid,
+Parent, Parent + Child, PK, and three-player Whole Family modes. Controller input, cooperative assistance,
+and a shared pause menu are implemented. See [local development](docs/local-development.md)
+for controls, exact rules, and the automated validation procedure.
 
 ## Intended development loop
 
@@ -59,9 +57,8 @@ and supports:
 - keyboard and Xbox controller input;
 - automated tests for the platform-independent rules.
 
-Kid Mode, Dad Mode, polished art and audio, multiplayer, and the other arcade
-games are intentionally later milestones. The launcher/Home Menu itself is part
-of the first milestone.
+Kid and Parent modes plus local cooperative play are implemented. Polished art
+and audio, online multiplayer, and additional arcade games remain later work.
 
 ## Repository principles
 
